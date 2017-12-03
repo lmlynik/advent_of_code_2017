@@ -84,12 +84,6 @@ defmodule AdventOfCode2_2 do
 
   defp divisors(_, acc), do: acc
 
-  # defp reduce([], acc), do: acc
-
-  # defp reduce([head | tail], acc) do
-
-  # end
-
   defp divisible(l, r, _) when rem(l, r) == 0 do
     round(l / r)
   end
