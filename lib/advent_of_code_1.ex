@@ -60,7 +60,7 @@ defmodule AdventOfCode1_2 do
   """
   def captcha(input) do
     chars = input |> String.graphemes()
-    hc = (chars |> Enum.count()) / 2 |> round
+    hc = ((chars |> Enum.count()) / 2) |> round
     list = chars ++ Enum.slice(chars, 0, hc)
     solve(list, [], hc, 0)
   end
