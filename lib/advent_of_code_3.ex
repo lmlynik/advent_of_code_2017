@@ -15,29 +15,29 @@ defmodule AdventOfCode3 do
 
   ## Examples
 
-      # iex> AdventOfCode3.distance(1024)
-      # 31
+      iex> AdventOfCode3.distance(1024)
+      31
       iex> AdventOfCode3.distance(12)
       3
-      # iex> AdventOfCode3.distance(23)
-      # 2
-      # iex> AdventOfCode3.distance(1)
-      # 1
+      iex> AdventOfCode3.distance(23)
+      2
+      iex> AdventOfCode3.distance(1)
+      0
 
   """
 
   def distance(target) do
     navigateTo(target, {1, {0, 0}, :S}, 1, false)
+    |> AdventOfCode3_Common.manhattan({0, 0})
   end
 
-  defp navigateTo(0, {current, x, y}, _, _) do
+  defp navigateTo(target, {current, {x, y}, _}, _, _) when target == current do
     {x, y}
   end
 
   defp navigateTo(target, {current, {x, y}, dir}, distanceToEdge, turnNow) do
-    IO.inspect(Kernel.binding())
-
-    newDir = turn(dir)
+    newDir = AdventOfCode3_Common.turn(dir)
+    {xd, yd} = AdventOfCode3_Common.cart(newDir)
 
     newDistanceToEdge =
       case turnNow do
@@ -45,32 +45,27 @@ defmodule AdventOfCode3 do
         false -> distanceToEdge
       end
 
-    {xd, yd} = cart(newDir)
-
     c = current + 1
+    until = Enum.min([current + distanceToEdge, target])
+    steps = c..until |> Enum.to_list()
+    at = Enum.reduce(steps, {x, y}, fn _, {xa, ya} -> {xa + xd, ya + yd} end)
 
-    # r =
-    #   c..(c + distanceToEdge - 1)
-    #   |> Enum.reduce({x, y}, fn _, {x, y} -> {x + xd, y + yd} end)
-    #   |> IO.inspect()
+    navigateTo(target, {List.last(steps), at, newDir}, newDistanceToEdge, !turnNow)
+  end
+end
 
-    # IO.inspect({r, xd, yd})
-    Enum.to_list(c..(c + distanceToEdge - 1)) |> IO.inspect()
-    at =
-      c..(c + distanceToEdge - 1)
-      |> Enum.map(fn i -> {i, {x + xd, y + yd}, newDir} end)
-      |> List.last()
-
-    navigateTo(target - 1, at, newDistanceToEdge, !turnNow)
+defmodule AdventOfCode3_Common do
+  def manhattan({x0, y0}, {x1, y1}) do
+    abs(x1 - x0) + abs(y1 - y0)
   end
 
-  defp turn(:E), do: :N
-  defp turn(:N), do: :W
-  defp turn(:W), do: :S
-  defp turn(:S), do: :E
+  def turn(:E), do: :N
+  def turn(:N), do: :W
+  def turn(:W), do: :S
+  def turn(:S), do: :E
 
-  defp cart(:E), do: {1, 0}
-  defp cart(:N), do: {0, 1}
-  defp cart(:W), do: {-1, 0}
-  defp cart(:S), do: {0, -1}
+  def cart(:E), do: {1, 0}
+  def cart(:N), do: {0, 1}
+  def cart(:W), do: {-1, 0}
+  def cart(:S), do: {0, -1}
 end
