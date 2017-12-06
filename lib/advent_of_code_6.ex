@@ -14,8 +14,10 @@ defmodule AdventOfCode6 do
 
       iex> AdventOfCode6.balance([0, 2, 7, 0])
       5
+      
       iex> AdventOfCode6.balance([10,	3,	15,	10,	5,	15,	5,	15,	9,	2,	5,	8,	5,	2,	3,	6])
       14029
+
       iex> AdventOfCode6.loop_length([10,	3,	15,	10,	5,	15,	5,	15,	9,	2,	5,	8,	5,	2,	3,	6])
       2765
   """
