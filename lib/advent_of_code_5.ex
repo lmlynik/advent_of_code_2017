@@ -23,10 +23,12 @@ defmodule AdventOfCode5 do
 
   defp steps(registers, idx, acc) do
     case Enum.fetch(registers, idx) do
-      {:ok, value} -> 
+      {:ok, value} ->
         registers = List.update_at(registers, idx, fn x -> x + 1 end)
         steps(registers, idx + value, acc + 1)
-      :error -> {acc, registers}
+
+      :error ->
+        {acc, registers}
     end
   end
 
@@ -37,7 +39,6 @@ defmodule AdventOfCode5 do
     |> Enum.to_list()
     |> steps()
   end
-
 end
 
 defmodule AdventOfCode5_2 do
@@ -65,13 +66,16 @@ defmodule AdventOfCode5_2 do
 
   defp steps(registers, idx, acc) do
     case Enum.fetch(registers, idx) do
-      {:ok, value} when value >= 3 -> 
+      {:ok, value} when value >= 3 ->
         registers = List.update_at(registers, idx, fn x -> x - 1 end)
         steps(registers, idx + value, acc + 1)
-      {:ok, value} -> 
+
+      {:ok, value} ->
         registers = List.update_at(registers, idx, fn x -> x + 1 end)
         steps(registers, idx + value, acc + 1)
-      :error -> {acc, registers}
+
+      :error ->
+        {acc, registers}
     end
   end
 
@@ -82,5 +86,4 @@ defmodule AdventOfCode5_2 do
     |> Enum.to_list()
     |> steps()
   end
-
 end

@@ -9,4 +9,5 @@ defmodule AdventOfCodeTest do
   doctest AdventOfCode4_2
   doctest AdventOfCode5
   doctest AdventOfCode5_2
+  doctest AdventOfCode6
 end
